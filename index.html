@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#6c5ce7">
+  <meta name="description" content="SCAMCHECK AI - افحص الرسائل والروابط والعروض المشبوهة قبل أن تثق بها">
+  <title>SCAMCHECK AI</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <!-- ================= HEADER ================= -->
+  <header class="topbar">
+    <div class="brand" onclick="navigate('home')">
+      <div class="brand-icon">✓</div>
+      <div>
+        <strong>SCAMCHECK</strong>
+        <span>AI SECURITY</span>
+      </div>
+    </div>
+
+    <div class="top-actions">
+      <button class="icon-btn" onclick="toggleTheme()" title="تغيير المظهر">
+        <span id="themeIcon">☾</span>
+      </button>
+
+      <button class="icon-btn menu-toggle" onclick="toggleSidebar()">
+        ☰
+      </button>
+    </div>
+  </header>
+
+
+  <!-- ================= SIDEBAR ================= -->
+  <aside class="sidebar" id="sidebar">
+
+    <div class="sidebar-profile">
+      <div class="avatar">U</div>
+      <div>
+        <strong id="sidebarUser">Guest User</strong>
+        <small id="sidebarPlan">Free Plan</small>
+      </div>
+    </div>
+
+    <nav>
+
+      <button class="nav-item active" data-page="home" onclick="navigate('home')">
+        <span>⌂</span>
+        <label data-i18n="home">الرئيسية</label>
+      </button>
+
+      <button class="nav-item" data-page="check" onclick="navigate('check')">
+        <span>⌕</span>
+        <label data-i18n="check">فحص جديد</label>
+      </button>
+
+      <button class="nav-item" data-page="reports" onclick="navigate('reports')">
+        <span>▤</span>
+        <label data-i18n="reports">تقاريري</label>
+      </button>
+
+      <button class="nav-item" data-page="database" onclick="navigate('database')">
+        <span>◉</span>
+        <label data-i18n="database">قاعدة البيانات</label>
+      </button>
+
+      <button class="nav-item" data-page="profile" onclick="navigate('profile')">
+        <span>⚙</span>
+        <label data-i18n="profile">الملف الشخصي</label>
+      </button>
+
+    </nav>
+
+    <div class="sidebar-premium">
+      <div class="premium-icon">◆</div>
+      <strong>SCAMCHECK PRO</strong>
+      <p>فحوصات أكثر وتقارير متقدمة.</p>
+      <button onclick="showPremium()">ترقية الحساب</button>
+    </div>
+
+  </aside>
+
+
+  <!-- ================= OVERLAY ================= -->
+  <div class="overlay" id="overlay" onclick="closeSidebar()"></div>
+
+
+  <!-- ================= MAIN ================= -->
+  <main class="main">
+
+    <!-- ================= HOME ================= -->
+    <section class="page active" id="page-home">
+
+      <div class="hero">
+
+        <div class="hero-content">
+
+          <span class="eyebrow">AI DIGITAL SAFETY</span>
+
+          <h1>
+            قبل أن تثق...
+            <span>افحص.</span>
+          </h1>
+
+          <p>
+            افحص الرسائل والروابط والعروض والوظائف والطلبات المشبوهة
+            واحصل على مؤشرات تساعدك على اتخاذ قرار أكثر أمانًا.
+          </p>
+
+          <button class="primary-btn large" onclick="navigate('check')">
+            🔍 ابدأ الفحص الآن
+          </button>
+
+        </div>
+
+        <div class="hero-shield">
+          <div class="shield">
+            ✓
+          </div>
+          <div class="orbit orbit1"></div>
+          <div class="orbit orbit2"></div>
+        </div>
+
+      </div>
+
+
+      <!-- STATS -->
+      <div class="stats-grid">
+
+        <div class="stat-card">
+          <span>🔎</span>
+          <strong id="totalChecks">0</strong>
+          <small>عمليات الفحص</small>
+        </div>
+
+        <div class="stat-card">
+          <span>⚠</span>
+          <strong id="highRisks">0</strong>
+          <small>مخاطر مرتفعة</small>
+        </div>
+
+        <div class="stat-card">
+          <span>🛡</span>
+          <strong>24/7</strong>
+          <small>حماية مستمرة</small>
+        </div>
+
+      </div>
+
+
+      <!-- QUICK CHECK -->
+      <div class="section-heading">
+        <div>
+          <span class="eyebrow">QUICK CHECK</span>
+          <h2>ماذا تريد أن تفحص؟</h2>
+        </div>
+
+        <button class="text-btn" onclick="navigate('check')">
+          عرض الكل →
+        </button>
+      </div>
+
+      <div class="check-grid">
+
+        <button class="check-card" onclick="openAnalyzer('message')">
+          <div class="check-icon purple">💬</div>
+          <strong>رسالة</strong>
+          <small>WhatsApp / SMS / DM</small>
+        </button>
+
+        <button class="check-card" onclick="openAnalyzer('link')">
+          <div class="check-icon blue">🔗</div>
+          <strong>رابط</strong>
+          <small>تحقق من الرابط</small>
+        </button>
+
+        <button class="check-card" onclick="openAnalyzer('phone')">
+          <div class="check-icon green">☎</div>
+          <strong>رقم هاتف</strong>
+          <small>رقم مجهول</small>
+        </button>
+
+        <button class="check-card" onclick="openAnalyzer('product')">
+          <div class="check-icon orange">🛍</div>
+          <strong>منتج</strong>
+          <small>إعلان أو متجر</small>
+        </button>
+
+      </div>
+
+
+      <!-- MORE -->
+      <div class="section-heading">
+        <div>
+          <span class="eyebrow">MORE TOOLS</span>
+          <h2>أدوات أخرى</h2>
+        </div>
+      </div>
+
+      <div class="mini-tools">
+
+        <button onclick="openAnalyzer('job')">
+          <span>💼</span>
+          <strong>وظيفة</strong>
+        </button>
+
+        <button onclick="openAnalyzer('rental')">
+          <span>🏠</span>
+          <strong>إيجار</strong>
+        </button>
+
+        <button onclick="openAnalyzer('payment')">
+          <span>💳</span>
+          <strong>طلب دفع</strong>
+        </button>
+
+        <button onclick="openAnalyzer('screenshot')">
+          <span>📸</span>
+          <strong>صورة شاشة</strong>
+        </button>
+
+      </div>
+
+
+      <!-- TIP -->
+      <div class="security-tip">
+        <div class="tip-icon">💡</div>
+        <div>
+          <strong>نصيحة اليوم</strong>
+          <p>
+            لا تشارك رمز OTP أو كلمة المرور أو بيانات البطاقة مع أي شخص
+            يطلبها منك عبر رسالة.
+          </p>
+        </div>
+      </div>
+
+
+      <!-- RECENT -->
+      <div class="section-heading">
+        <div>
+          <span class="eyebrow">HISTORY</span>
+          <h2>آخر عمليات الفحص</h2>
+        </div>
+
+        <button class="text-btn" onclick="navigate('reports')">
+          كل التقارير →
+        </button>
+      </div>
+
+      <div id="recentChecks" class="recent-list"></div>
+
+    </section>
+
+
+    <!-- ================= CHECK ================= -->
+    <section class="page" id="page-check">
+
+      <div class="page-title">
+        <span class="eyebrow">SCAMCHECK ENGINE</span>
+        <h1>فحص جديد</h1>
+        <p>
+          اختر نوع المحتوى الذي تريد فحصه.
+        </p>
+      </div>
+
+      <div class="all-checks">
+
+        <button class="large-check" onclick="openAnalyzer('message')">
+          <span>💬</span>
+          <div>
+            <strong>فحص رسالة</strong>
+            <small>حلل الرسائل والمحادثات المشبوهة</small>
+          </div>
+          <b>→</b>
+        </button>
+
+        <button class="large-check" onclick="openAnalyzer('link')">
+          <span>🔗</span>
+          <div>
+            <strong>فحص رابط</strong>
+            <small>افحص مؤشرات الروابط والمواقع المشبوهة</small>
+          </div>
+          <b>→</b>
+        </button>
+
+        <button class="large-check" onclick="openAnalyzer('phone')">
+          <span>☎</span>
+          <div>
+            <strong>فحص رقم هاتف</strong>
+            <small>تحقق من رقم مجهول أو طلب اتصال</small>
+          </div>
+          <b>→</b>
+        </button>
+
+        <button class="large-check" onclick="openAnalyzer('product')">
+          <span>🛍</span>
+          <div>
+            <strong>فحص منتج أو متجر</strong>
+            <small>حلل إعلانًا أو عرضًا تجاريًا</small>
+          </div>
+          <b>→</b>
+        </button>
+
+        <button class="large-check" onclick="openAnalyzer('job')">
+          <span>💼</span>
+          <div>
+            <strong>فحص وظيفة</strong>
+            <small>تحقق من عروض العمل المشبوهة</small>
+          </div>
+          <b>→</b>
+        </button>
+
+        <button class="large-check" onclick="openAnalyzer('rental')">
+          <span>🏠</span>
+          <div>
+            <strong>فحص عقار</strong>
+            <small>حلل عروض الإيجار والبيع</small>
+          </div>
+          <b>→</b>
+        </button>
+
+        <button class="large-check" onclick="openAnalyzer('payment')">
+          <span>💳</span>
+          <div>
+            <strong>فحص طلب دفع</strong>
+            <small>افحص طلب تحويل أو دفع مشبوه</small>
+          </div>
+          <b>→</b>
+        </button>
+
+        <button class="large-check" onclick="openAnalyzer('screenshot')">
+          <span>📸</span>
+          <div>
+            <strong>فحص صورة</strong>
+            <small>حلل نصًا ظاهرًا في Screenshot</small>
+          </div>
+          <b>→</b>
+        </button>
+
+      </div>
+
+    </section>
+
+
+    <!-- ================= REPORTS ================= -->
+    <section class="page" id="page-reports">
+
+      <div class="page-title">
+        <span class="eyebrow">YOUR HISTORY</span>
+        <h1>تقاريري</h1>
+        <p>جميع عمليات الفحص محفوظة على جهازك.</p>
+      </div>
+
+      <div class="reports-toolbar">
+
+        <button class="secondary-btn" onclick="clearHistory()">
+          حذف السجل
+        </button>
+
+      </div>
+
+      <div id="reportsList" class="reports-list"></div>
+
+    </section>
+
+
+    <!-- ================= DATABASE ================= -->
+    <section class="page" id="page-database">
+
+      <div class="page-title">
+        <span class="eyebrow">COMMUNITY DATABASE</span>
+        <h1>قاعدة البيانات</h1>
+        <p>
+          مؤشرات وتقارير مجتمعية عن حسابات وأرقام وروابط مشبوهة.
+        </p>
+      </div>
+
+      <div class="database-search">
+        <input
+          id="databaseSearch"
+          type="search"
+          placeholder="ابحث عن رقم، رابط، حساب..."
+          oninput="renderDatabase()"
+        >
+        <span>⌕</span>
+      </div>
+
+      <div class="database-filters">
+
+        <button class="filter active" data-filter="all" onclick="setDatabaseFilter('all',this)">
+          الكل
+        </button>
+
+        <button class="filter" data-filter="phone" onclick="setDatabaseFilter('phone',this)">
+          أرقام
+        </button>
+
+        <button class="filter" data-filter="link" onclick="setDatabaseFilter('link',this)">
+          روابط
+        </button>
+
+        <button class="filter" data-filter="seller" onclick="setDatabaseFilter('seller',this)">
+          بائعين
+        </button>
+
+      </div>
+
+      <div id="databaseList" class="database-list"></div>
+
+      <button class="primary-btn report-scam-btn" onclick="openCommunityReport()">
+        + أبلغ عن شيء مشبوه
+      </button>
+
+    </section>
+
+
+    <!-- ================= PROFILE ================= -->
+    <section class="page" id="page-profile">
+
+      <div class="page-title">
+        <span class="eyebrow">ACCOUNT</span>
+        <h1>الملف الشخصي</h1>
+      </div>
+
+      <div class="profile-card">
+
+        <div class="big-avatar">U</div>
+
+        <div>
+          <h2>Guest User</h2>
+          <p>الحساب المجاني</p>
+        </div>
+
+      </div>
+
+
+      <div class="settings-card">
+
+        <h3>الإعدادات</h3>
+
+        <div class="setting-row">
+          <div>
+            <strong>اللغة</strong>
+            <small>لغة التطبيق</small>
+          </div>
+
+          <select id="languageSelect" onchange="changeLanguage(this.value)">
+            <option value="ar">العربية</option>
+            <option value="en">English</option>
+            <option value="fr">Français</option>
+          </select>
+        </div>
+
+
+        <div class="setting-row">
+          <div>
+            <strong>المظهر</strong>
+            <small>الوضع الليلي أو النهاري</small>
+          </div>
+
+          <button class="toggle-btn" onclick="toggleTheme()">
+            <span id="themeText">الوضع</span>
+          </button>
+        </div>
+
+
+        <div class="setting-row">
+          <div>
+            <strong>الفحوصات</strong>
+            <small>حذف سجل الفحوصات المحفوظ محليًا</small>
+          </div>
+
+          <button class="danger-btn" onclick="clearHistory()">
+            حذف
+          </button>
+        </div>
+
+      </div>
+
+
+      <div class="premium-card">
+
+        <div>
+          <span class="premium-label">PRO</span>
+          <h2>SCAMCHECK Premium</h2>
+          <p>
+            فحوصات أكثر وتقارير متقدمة وميزات مستقبلية.
+          </p>
+        </div>
+
+        <button onclick="showPremium()">
+          قريبًا
+        </button>
+
+      </div>
+
+
+      <div class="about-box">
+
+        <h3>حول SCAMCHECK AI</h3>
+
+        <p>
+          SCAMCHECK AI هو نموذج أولي لأداة تساعد المستخدم على التعرف
+          على مؤشرات الخطر في المحتوى الرقمي.
+        </p>
+
+        <p class="warning-text">
+          ⚠ النتائج إرشادية وليست إثباتًا أن المحتوى احتيالي أو آمن.
+        </p>
+
+        <small>
+          Version 1.0.0
+        </small>
+
+      </div>
+
+    </section>
+
+  </main>
+
+
+  <!-- ================= MOBILE NAV ================= -->
+  <nav class="bottom-nav">
+
+    <button data-page="home" onclick="navigate('home')">
+      <span>⌂</span>
+      <small>الرئيسية</small>
+    </button>
+
+    <button data-page="check" onclick="navigate('check')">
+      <span>⌕</span>
+      <small>فحص</small>
+    </button>
+
+    <button data-page="reports" onclick="navigate('reports')">
+      <span>▤</span>
+      <small>تقارير</small>
+    </button>
+
+    <button data-page="database" onclick="navigate('database')">
+      <span>◉</span>
+      <small>قاعدة</small>
+    </button>
+
+    <button data-page="profile" onclick="navigate('profile')">
+      <span>⚙</span>
+      <small>حساب</small>
+    </button>
+
+  </nav>
+
+
+  <!-- ================= ANALYZER MODAL ================= -->
+  <div class="modal" id="analyzerModal">
+
+    <div class="modal-box analyzer-box">
+
+      <button class="close-btn" onclick="closeModal('analyzerModal')">
+        ×
+      </button>
+
+      <div class="modal-icon" id="analyzerIcon">🔍</div>
+
+      <span class="eyebrow" id="analyzerEyebrow">
+        SCAMCHECK ENGINE
+      </span>
+
+      <h2 id="analyzerTitle">فحص رسالة</h2>
+
+      <p id="analyzerDescription">
+        أدخل المحتوى الذي تريد فحصه.
+      </p>
+
+      <div class="input-area">
+
+        <textarea
+          id="analysisInput"
+          placeholder="ألصق الرسالة أو المحتوى هنا..."
+        ></textarea>
+
+        <div class="input-hint">
+          لا تدخل كلمات مرور أو رموز OTP أو بيانات بطاقات حقيقية.
+        </div>
+
+      </div>
+
+      <div class="analyzer-actions">
+
+        <button class="secondary-btn" onclick="closeModal('analyzerModal')">
+          إلغاء
+        </button>
+
+        <button class="primary-btn" onclick="runAnalysis()">
+          🔍 تحليل الآن
+        </button>
+
+      </div>
+
+      <div id="analysisResult" class="analysis-result"></div>
+
+    </div>
+
+  </div>
+
+
+  <!-- ================= REPORT MODAL ================= -->
+  <div class="modal" id="communityModal">
+
+    <div class="modal-box">
+
+      <button class="close-btn" onclick="closeModal('communityModal')">
+        ×
+      </button>
+
+      <div class="modal-icon">🚨</div>
+
+      <h2>الإبلاغ عن محتوى مشبوه</h2>
+
+      <p>
+        ساعد المستخدمين الآخرين بإضافة مؤشر إلى قاعدة البيانات.
+      </p>
+
+      <input
+        id="reportValue"
+        class="form-input"
+        placeholder="رقم هاتف / رابط / اسم حساب"
+      >
+
+      <select id="reportCategory" class="form-input">
+        <option value="phone">رقم هاتف</option>
+        <option value="link">رابط</option>
+        <option value="seller">بائع / حساب</option>
+        <option value="job">وظيفة</option>
+        <option value="other">أخرى</option>
+      </select>
+
+      <textarea
+        id="reportDescription"
+        class="form-input"
+        placeholder="اشرح لماذا تعتقد أنه مشبوه..."
+      ></textarea>
+
+      <button class="primary-btn full" onclick="submitCommunityReport()">
+        إرسال البلاغ
+      </button>
+
+    </div>
+
+  </div>
+
+
+  <!-- ================= PREMIUM MODAL ================= -->
+  <div class="modal" id="premiumModal">
+
+    <div class="modal-box premium-modal">
+
+      <button class="close-btn" onclick="closeModal('premiumModal')">
+        ×
+      </button>
+
+      <div class="premium-big">◆</div>
+
+      <span class="eyebrow">SCAMCHECK PRO</span>
+
+      <h2>ميزات Premium</h2>
+
+      <ul>
+        <li>✓ فحوصات أكثر</li>
+        <li>✓ تقارير متقدمة</li>
+        <li>✓ تحليل صور متقدم</li>
+        <li>✓ قاعدة بيانات موسعة</li>
+        <li>✓ أدوات للمشاريع والشركات</li>
+      </ul>
+
+      <button class="primary-btn full" onclick="showToast('نظام الاشتراك سيتم تفعيله في الإصدار القادم')">
+        قريبًا
+      </button>
+
+    </div>
+
+  </div>
+
+
+  <!-- ================= TOAST ================= -->
+  <div id="toast" class="toast"></div>
+
+
+  <script src="app.js"></script>
+
+</body>
+</html>
